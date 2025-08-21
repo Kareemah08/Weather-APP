@@ -7,14 +7,30 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Weather App</h1>
-    <button id="toggleTheme">Switch to Dark Mode</button>
-    <input type="text" id="city" placeholder="Enter city name">
-    <button id="getWeather">Get Weather</button>
-    <div id="result"></div>
-    <div id="recent"></div>
+  <div id="app">
+    <header>
+      <h1>Weather App</h1>
+      <button id="mode-toggle">🌙</button>
+    </header>
+
+    <div id="search">
+      <input type="text" id="city-input" placeholder="Enter city">
+      <button id="search-btn">Search</button>
+    </div>
+
+    <div id="weather-info">
+      <h2 id="city-name"></h2>
+      <p id="local-time"></p>
+      <img id="weather-icon" src="" alt="">
+      <p id="temp"></p>
+      <p id="desc"></p>
+      <p id="humidity"></p>
+      <p id="wind"></p>
+    </div>
   </div>
+
+  <div id="animation-container"></div>
+
   <script src="script.js"></script>
 </body>
 </html>

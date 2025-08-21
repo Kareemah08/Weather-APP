@@ -1,125 +1,79 @@
 const apiKey = "82273e6ac90204d2a2d661b0787fe23b"; 
-const button = document.getElementById("getWeather");
-const resultDiv = document.getElementById("result");
-const recentDiv = document.getElementById("recent");
-const toggleBtn = document.getElementById("toggleTheme");
+const cityInput = document.getElementById("city-input");
+const searchBtn = document.getElementById("search-btn");
+const cityNameEl = document.getElementById("city-name");
+const localTimeEl = document.getElementById("local-time");
+const weatherIconEl = document.getElementById("weather-icon");
+const tempEl = document.getElementById("temp");
+const descEl = document.getElementById("desc");
+const humidityEl = document.getElementById("humidity");
+const windEl = document.getElementById("wind");
+const modeToggleBtn = document.getElementById("mode-toggle");
+const animationContainer = document.getElementById("animation-container");
 
-let recentCities = [];
-let animationContainer;
+
+modeToggleBtn.addEventListener("click", () => document.body.classList.toggle("dark"));
 
 
-toggleBtn.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-  toggleBtn.textContent = document.body.classList.contains("dark") 
-    ? "Switch to Light Mode" 
-    : "Switch to Dark Mode";
+searchBtn.addEventListener("click", () => {
+  if(cityInput.value) fetchWeather(cityInput.value);
 });
 
 
-function updateRecent() {
-  recentDiv.innerHTML = "";
-  recentCities.forEach(city => {
-    const btn = document.createElement("button");
-    btn.textContent = city;
-    btn.addEventListener("click", () => fetchWeather(city));
-    recentDiv.appendChild(btn);
-  });
+function fetchWeather(city){
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`)
+    .then(res => res.json())
+    .then(data => displayWeather(data));
+}
+
+function displayWeather(data){
+  cityNameEl.textContent = `${data.name}, ${data.sys.country}`;
+  tempEl.textContent = `${data.main.temp} °C`;
+  descEl.textContent = data.weather[0].description;
+  humidityEl.textContent = `Humidity: ${data.main.humidity}%`;
+  windEl.textContent = `Wind: ${data.wind.speed} m/s`;
+  weatherIconEl.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+
+
+  const localTime = new Date((data.dt + data.timezone) * 1000);
+  localTimeEl.textContent = `Local time: ${localTime.toUTCString().slice(-12, -4)}`;
+
+  updateAnimation(data.weather[0].id);
 }
 
 
-function clearAnimation() {
-  const existing = document.getElementById("animation-container");
-  if (existing) existing.remove();
-}
+function clearAnimation(){ animationContainer.innerHTML = ""; }
 
-function createRain() {
+function createRain(){ 
   clearAnimation();
-  const container = document.createElement("div");
-  container.id = "animation-container";
-  for (let i = 0; i < 50; i++) {
+  for(let i=0;i<50;i++){
     const drop = document.createElement("div");
     drop.classList.add("rain-drop");
-    drop.style.left = Math.random() * window.innerWidth + "px";
-    drop.style.animationDuration = (0.5 + Math.random() * 0.5) + "s";
-    drop.style.animationDelay = (Math.random() * 2) + "s"; // stagger drops
-    container.appendChild(drop);
+    drop.style.left = Math.random()*window.innerWidth + "px";
+    drop.style.animationDuration = (0.5+Math.random()*0.5)+"s";
+    drop.style.animationDelay = Math.random()*2+"s";
+    animationContainer.appendChild(drop);
   }
-  document.body.appendChild(container);
 }
 
-function createSnow() {
+function createSnow(){ 
   clearAnimation();
-  const container = document.createElement("div");
-  container.id = "animation-container";
-  for (let i = 0; i < 30; i++) {
+  for(let i=0;i<30;i++){
     const snow = document.createElement("div");
     snow.classList.add("snowflake");
-    snow.style.left = Math.random() * window.innerWidth + "px";
-    snow.style.fontSize = 10 + Math.random() * 10 + "px";
-    snow.style.animationDuration = (5 + Math.random() * 5) + "s";
-    snow.style.animationDelay = (Math.random() * 5) + "s";
-    container.appendChild(snow);
+    snow.style.left = Math.random()*window.innerWidth + "px";
+    snow.style.fontSize = (10+Math.random()*10)+"px";
+    snow.style.animationDuration = (5+Math.random()*5)+"s";
+    snow.style.animationDelay = Math.random()*5+"s";
+    animationContainer.appendChild(snow);
   }
-  document.body.appendChild(container);
 }
 
-
-
-function fetchWeather(city) {
-  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.cod === 200) {
-        const iconCode = data.weather[0].icon;
-        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-
-   
-        const timezoneOffset = data.timezone; 
-        const localTime = new Date(Date.now() + timezoneOffset * 1000);
-        const timeStr = localTime.toUTCString().slice(17, 22);
-
-        resultDiv.innerHTML = `
-          <p><strong>${data.name}</strong></p>
-          <img src="${iconUrl}" alt="${data.weather[0].description}">
-          <p>🕒 Local Time: ${timeStr}</p>
-          <p>🌡 Temperature: ${data.main.temp}°C</p>
-          <p>🌥 Condition: ${data.weather[0].description}</p>
-          <p>💧 Humidity: ${data.main.humidity}%</p>
-          <p>💨 Wind: ${data.wind.speed} m/s</p>
-        `;
-        resultDiv.classList.add("show");
-
-
-        if (!recentCities.includes(data.name)) {
-          recentCities.unshift(data.name);
-          if (recentCities.length > 5) recentCities.pop();
-          updateRecent();
-        }
-
-   
-        const weatherMain = data.weather[0].main.toLowerCase();
-        document.body.classList.remove("sun","clouds","rain","snow","thunderstorm","mist");
-        clearAnimation();
-
-        if (["clear"].includes(weatherMain)) document.body.classList.add("sun");
-        else if (["clouds"].includes(weatherMain)) document.body.classList.add("clouds");
-        else if (["rain","drizzle"].includes(weatherMain)) {
-          document.body.classList.add("rain");
-          createRain();
-        }
-        else if (["snow"].includes(weatherMain)) {
-          document.body.classList.add("snow");
-          createSnow();
-        }
-        else if (["thunderstorm"].includes(weatherMain)) document.body.classList.add("thunderstorm");
-        else if (["mist","fog","haze"].includes(weatherMain)) document.body.classList.add("mist");
-
-      } else {
-        resultDiv.innerHTML = `<p style="color:red;">City not found. Try again!</p>`;
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      resultDiv.innerHTML = `<p style="color:red;">Error fetching data. Try again later.</p>`;
-    });
+function updateAnimation(weatherId){
+  clearAnimation();
+  if(weatherId>=200 && weatherId<600){ 
+    createRain();
+  } else if(weatherId>=600 && weatherId<700){ 
+    createSnow();
+  }
 }
