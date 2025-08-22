@@ -1,4 +1,4 @@
-const apiKey = "82273e6ac90204d2a2d661b0787fe23b"; 
+const API_KEY = "82273e6ac90204d2a2d661b0787fe23b"; 
 const cityInput = document.getElementById("city-input");
 const searchBtn = document.getElementById("search-btn");
 const cityNameEl = document.getElementById("city-name");
@@ -23,8 +23,12 @@ searchBtn.addEventListener("click", () => {
 function fetchWeather(city){
   fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`)
     .then(res => res.json())
-    .then(data => displayWeather(data));
+    .then(data => {
+      console.log(data); // Debugging: show API response
+      displayWeather(data);
+    });
 }
+
 
 function displayWeather(data){
   cityNameEl.textContent = `${data.name}, ${data.sys.country}`;
