@@ -16,5 +16,5 @@ Features **animated backgrounds**, **weather icons**, **dark mode**, and **real-
 
 ## Live Demo
 
-[Try the app live](https://weatherappkareemah08.netlify.app/)
+[Try the app live](https://weatherappkah.netlify.app)
 
