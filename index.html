@@ -1,35 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Weather App</title>
-  <link rel="stylesheet" href="style.css">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="app">
-    <header>
-      <h1>Weather App</h1>
-      <button id="mode-toggle">🌙</button>
-    </header>
+  <div class="container">
 
-    <div id="search">
-      <input type="text" id="city-input" placeholder="Enter city">
-      <button id="search-btn">Search</button>
+    <h1>Weather App</h1>
+    <button id="darkModeToggle" class="dark-toggle">🌙 Dark Mode</button>
+
+    <div class="search-box">
+      <input type="text" id="cityInput" placeholder="Enter city name" />
+      <button onclick="getWeather()">Search</button>
     </div>
 
-    <div id="weather-info">
-      <h2 id="city-name"></h2>
-      <p id="local-time"></p>
-      <img id="weather-icon" src="" alt="">
-      <p id="temp"></p>
-      <p id="desc"></p>
-      <p id="humidity"></p>
-      <p id="wind"></p>
+    <div class="loader" id="loader"></div>
+
+    <div class="result">
+      <div class="city"></div>
+      <div class="temperature"></div>
+      <div class="weather-icon"></div>
+      <div class="description"></div>
+      <div class="details"></div>
     </div>
   </div>
-
-  <div id="animation-container"></div>
 
   <script src="script.js"></script>
 </body>
