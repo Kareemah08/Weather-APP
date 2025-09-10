@@ -102,7 +102,8 @@ function displayWeather(data) {
   const detailsElem = document.querySelector('.details');
 
   cityElem.textContent = `${data.name}, ${data.sys.country}`;
-  tempElem.textContent = `${Math.round(data.main.temp)}°${unit === 'metric' ? 'C' : 'F'}`;
+  const temp = (unit === 'metric') ? Math.round(data.main.temp) : Math.round((data.main.temp * 9/5) + 32);
+  tempElem.textContent = `${temp}°${unit === 'metric' ? 'C' : 'F'}`;
   descElem.textContent = data.weather[0].description;
 
   const weatherMain = data.weather[0].main.toLowerCase();
@@ -115,7 +116,6 @@ function displayWeather(data) {
 
 document.body.classList.remove('rainy', 'snowy');
 
-  // Add rain animation
   if (weatherMain.includes("rain")) {
     iconElem.classList.add("rain");
     for (let i = 0; i < 10; i++) {
@@ -128,7 +128,6 @@ document.body.classList.remove('rainy', 'snowy');
     document.body.classList.add("rainy");
   }
 
-  // Add snow animation
   if (weatherMain.includes("snow")) {
     iconElem.classList.add("snow");
     for (let i = 0; i < 10; i++) {
@@ -141,7 +140,6 @@ document.body.classList.remove('rainy', 'snowy');
     document.body.classList.add("snowy");
   }
 
-  // Sunny/cloudy animations
   if (weatherMain.includes("cloud")) iconElem.classList.add('cloudy');
   if (weatherMain.includes("clear")) iconElem.classList.add('sunny');
 
