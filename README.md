@@ -1,20 +1,19 @@
-# Weather App
+# Weather App 🌤️
 
-An interactive weather application built with HTML, CSS, and JavaScript.  
-Features **animated backgrounds**, **weather icons**, **dark mode**, and **real-time local weather information**.
+A modern, responsive Weather App that allows users to search for current weather and a 5-day forecast for any city worldwide. Built with HTML, CSS, and JavaScript, it features dark mode, temperature unit toggle, smooth animations, and dynamic forecast cards.
 
 ## Features
 
-- 🌤 Weather icons for each condition (sun, clouds, rain, snow, etc.)  
-- 🌙 Light/Dark mode toggle  
-- 🌧 Rain and ❄️ Snow animations  
-- 🕒 Local time display for searched city  
-- 💧 Humidity and 🌬 Wind information  
-- 📝 Recent search history (clickable buttons)  
-- 📱 Responsive design for mobile and desktop  
-- ✅ Smooth fade-in animations for results
+- 🌙 **Dark / Light Mode** toggle with saved preference.
+- 🌡️ **Temperature Unit Toggle** (°C / °F) with live update.
+- 🔍 Search for any city worldwide.
+- ⏳ **Loading spinner** while fetching data.
+- ❄️☔☀️ **Animated weather icons** for sunny, cloudy, rain, snow, and thunderstorms.
+- 📅 **5-day forecast** displayed as responsive cards.
+- ⚡ **Responsive design** for mobile and desktop.
+- 📌 Inline error messages for invalid input or API issues.
 
-## Live Demo
+## Demo
 
 [Try the app live](https://weatherappkah.netlify.app)
 
